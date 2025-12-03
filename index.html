@@ -84,7 +84,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center; /* Centers you and the car */
+            object-position: center; 
             z-index: -1;
         }
 
@@ -197,7 +197,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top center; /* Focuses on faces */
+            object-position: top center; 
         }
 
         /* Hover Effect */
@@ -240,8 +240,9 @@
         }
         .play-icon { background: white; color: black; border: none; }
 
-        .card-title { font-size: 0.85rem; font-weight: bold; }
+        .card-title { font-size: 0.85rem; font-weight: bold; line-height: 1.2; }
         .card-desc { font-size: 0.7rem; color: #46d369; margin-top: 3px;}
+        .card-sub { font-size: 0.65rem; color: #aaa; margin-top: 2px; }
 
         /* --- Footer --- */
         footer {
@@ -265,7 +266,7 @@
         /* --- Mobile Responsive --- */
         @media (max-width: 768px) {
             .hero { height: 85vh; align-items: flex-end; padding-bottom: 100px; }
-            .hero-bg { object-position: 65% center; } /* Shift background on mobile to see you */
+            .hero-bg { object-position: 65% center; }
             .title-img { font-size: 3rem; }
             .synopsis { font-size: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
             .card:hover { transform: scale(1.05); }
@@ -280,12 +281,13 @@
             <a href="#home">Home</a>
             <a href="#portfolio">My List</a>
             <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <div class="hero" id="home">
-        <!-- BACKGROUND IMAGE: Uses your car photo -->
+        <!-- BACKGROUND IMAGE -->
         <img src="hero-car.jpg" alt="Bharath Hero" class="hero-bg">
         <div class="gradient-overlay"></div>
 
@@ -304,11 +306,9 @@
             </p>
 
             <div class="hero-btns">
-                <!-- Graphic Portfolio Link -->
                 <a href="https://drive.google.com/folderview?id=1YORyGzwpmRGTqsDCXFvB2XT-ROmBWUOL" target="_blank" class="btn btn-white">
                     <i class="fas fa-play"></i> Graphic Works
                 </a>
-                <!-- CAD Portfolio Link -->
                 <a href="https://drive.google.com/folderview?id=1IbIQS3HHc96r2i9v4TQotauIdhM_DuLb" target="_blank" class="btn btn-gray">
                     <i class="fas fa-cogs"></i> CAD Works
                 </a>
@@ -321,7 +321,7 @@
         <h2>My Designs & Projects</h2>
         <div class="slider">
             
-            <!-- Graphic Design Card (Using art-split.png) -->
+            <!-- Graphic Design -->
             <div class="card" onclick="window.open('https://drive.google.com/folderview?id=1YORyGzwpmRGTqsDCXFvB2XT-ROmBWUOL')">
                 <img src="art-split.png" alt="Graphic Design">
                 <div class="card-info">
@@ -334,7 +334,7 @@
                 </div>
             </div>
 
-            <!-- CAD/Engineering Card (Using profile-glasses.png) -->
+            <!-- CAD/Engineering -->
             <div class="card" onclick="window.open('https://drive.google.com/folderview?id=1IbIQS3HHc96r2i9v4TQotauIdhM_DuLb')">
                 <img src="profile-glasses.png" alt="Engineering">
                 <div class="card-info">
@@ -347,7 +347,7 @@
                 </div>
             </div>
 
-            <!-- Forklift Project (Using forklift.png) -->
+            <!-- Forklift Project -->
             <div class="card">
                 <img src="forklift.png" alt="Forklift">
                 <div class="card-info">
@@ -359,7 +359,7 @@
                 </div>
             </div>
 
-            <!-- Bio Card (Using profile-side.jpg) -->
+            <!-- Bio Card -->
             <div class="card">
                 <img src="profile-side.jpg" alt="Bio">
                 <div class="card-info">
@@ -367,7 +367,7 @@
                         <div class="round-btn"><i class="fas fa-user"></i></div>
                     </div>
                     <div class="card-title">The Journey</div>
-                    <div class="card-desc">Biography • Education</div>
+                    <div class="card-desc">Biography • Skills</div>
                 </div>
             </div>
 
@@ -378,17 +378,20 @@
     <div class="row" id="experience">
         <h2>Work Experience</h2>
         <div class="slider">
-            <!-- Using colored blocks with icons for companies -->
+            
+            <!-- L&T Hydraulics -->
             <div class="card">
                 <div style="width:100%; height:100%; background:#004e92; display:flex; justify-content:center; align-items:center;">
                     <i class="fas fa-industry" style="font-size:3rem;"></i>
                 </div>
                 <div class="card-info">
-                    <div class="card-title">Planner</div>
+                    <div class="card-title">Production Planning & Control Engineer</div>
                     <div class="card-desc">L&T Hydraulics</div>
+                    <div class="card-sub">2024 - Present</div>
                 </div>
             </div>
 
+            <!-- Process Engineer -->
             <div class="card">
                 <div style="width:100%; height:100%; background:#444; display:flex; justify-content:center; align-items:center;">
                     <i class="fas fa-plane" style="font-size:3rem; color:#46d369;"></i>
@@ -396,9 +399,11 @@
                 <div class="card-info">
                     <div class="card-title">Process Engineer</div>
                     <div class="card-desc">Aerospace Sector</div>
+                    <div class="card-sub">Jan 2024 - Apr 2024</div>
                 </div>
             </div>
 
+            <!-- Relationship Manager -->
             <div class="card">
                 <div style="width:100%; height:100%; background:#800000; display:flex; justify-content:center; align-items:center;">
                     <i class="fas fa-headset" style="font-size:3rem;"></i>
@@ -406,8 +411,53 @@
                 <div class="card-info">
                     <div class="card-title">Relationship Manager</div>
                     <div class="card-desc">Altruist Technologies</div>
+                    <div class="card-sub">2023</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Education Row -->
+    <div class="row" id="education">
+        <h2>Education</h2>
+        <div class="slider">
+            
+            <!-- B.Tech -->
+            <div class="card">
+                <div style="width:100%; height:100%; background:#2c3e50; display:flex; justify-content:center; align-items:center;">
+                    <i class="fas fa-graduation-cap" style="font-size:3rem; color:#f1c40f;"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">B.Tech Mechanical</div>
+                    <div class="card-desc">Reva University</div>
+                    <div class="card-sub">2019-2023 • CGPA 7.5</div>
+                </div>
+            </div>
+
+            <!-- 12th / PUC -->
+            <div class="card">
+                <div style="width:100%; height:100%; background:#34495e; display:flex; justify-content:center; align-items:center;">
+                    <i class="fas fa-university" style="font-size:3rem; color:#ecf0f1;"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Senior Secondary (12th)</div>
+                    <div class="card-desc">KLE Independent PU College</div>
+                    <div class="card-sub">2018-2019 • 72.8%</div>
+                </div>
+            </div>
+
+            <!-- 10th -->
+            <div class="card">
+                <div style="width:100%; height:100%; background:#2c2c2c; display:flex; justify-content:center; align-items:center;">
+                    <i class="fas fa-school" style="font-size:3rem; color:#95a5a6;"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Secondary (10th)</div>
+                    <div class="card-desc">Indian High School</div>
+                    <div class="card-sub">2016-2017 • 91.04%</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -422,7 +472,6 @@
     </footer>
 
     <script>
-        // Navbar background change on scroll
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
