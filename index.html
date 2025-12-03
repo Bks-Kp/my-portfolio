@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharath K S | Streaming Now</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --netflix-red: #e50914;
+            --netflix-black: #141414;
+            --netflix-dark-grey: #181818;
+            --netflix-light-grey: #b3b3b3;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--netflix-black);
+            color: var(--white);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0));
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        .logo {
+            color: var(--netflix-red);
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover { color: var(--netflix-light-grey); }
+
+        /* Hero / Billboard Section */
+        .hero {
+            height: 90vh;
+            position: relative;
+            /* Default fallback if image missing */
+            background-color: #000; 
+            display: flex;
+            align-items: center;
+            padding-left: 4%;
+        }
+
+        .hero-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%; /* Focus on face/car */
+            opacity: 0.6;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #141414 20%, transparent 80%);
+        }
+        
+        .hero-overlay-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(to top, #141414, transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin-top: 50px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .series-logo {
+            font-size: 4.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            line-height: 0.9;
+            background: -webkit-linear-gradient(#fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metadata {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .match-score { color: #46d369; }
+        
+        .maturity-rating {
+            border: 1px solid var(--netflix-light-grey);
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .description {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn:hover { transform: scale(1.05); }
+
+        .btn-play { background: var(--white); color: #000; }
+        .btn-play:hover { background: rgba(255, 255, 255, 0.8); }
+        
+        .btn-info { background: rgba(109, 109, 110, 0.7); color: var(--white); }
+        .btn-info:hover { background: rgba(109, 109, 110, 0.4); }
+
+        /* Row Layout */
+        .category-row {
+            padding: 10px 0 30px 4%;
+            position: relative;
+            z-index: 20;
+        }
+
+        .row-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #e5e5e5;
+            transition: color 0.3s;
+        }
+        
+        .category-row:hover .row-title { color: #fff; }
+
+        .row-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-right: 4%;
+            padding-bottom: 40px;
+            padding-top: 10px;
+            scrollbar-width: none;
+        }
+        
+        .row-scroller::-webkit-scrollbar { display: none; }
+
+        .card {
+            flex: 0 0 280px;
+            height: 157px; /* 16:9 ratio */
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease-in-out, z-index 0.3s;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Specific sizing for vertical posters if needed, strictly sticking to landscape for netflix feel though */
+        .card-large {
+            flex: 0 0 350px;
+            height: 196px;
+        }
+
+        .card:hover {
+            transform: scale(1.3);
+            z-index: 100;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            border: 2px solid #333;
+        }
+
+        .card-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .card:hover .card-details { opacity: 1; }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .action-btn.play-small { background: #fff; color: #000; border: none; }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .card-meta {
+            font-size: 0.7rem;
+            color: #46d369; /* Green match color */
+            margin-bottom: 5px;
+        }
+        
+        .card-genre {
+            font-size: 0.7rem;
+            color: #ccc;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 900px;
+            margin: 80px auto 40px;
+            padding: 20px;
+            color: #808080;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .social-icons {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .social-icons a { color: #fff; transition: color 0.3s; }
+        .social-icons a:hover { color: var(--netflix-red); }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero-bg-img { object-position: center center; }
+            .hero-content { width: 100%; margin-top: 20px; }
+            .series-logo { font-size: 3rem; }
+            .card:hover { transform: scale(1.1); }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">BHARATH</a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#projects">My List</a>
+            <a href="#experience">Experience</a>
+            <a href="mailto:Bharathkswork.1@gmail.com">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero" id="home">
+        <!-- Using the 'Car' image for the background -->
+        <img src="hero-car.jpg" alt="Bharath Background" class="hero-bg-img">
+        
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="series-logo">BHARATH K S</h1>
+            <div class="metadata">
+                <span class="match-score">98% Match</span>
+                <span class="year">2025</span>
+                <span class="maturity-rating">U/A 16+</span>
+                <span>Engineer & Designer</span>
+            </div>
+            <p class="description">
+                A Mechanical Engineer who mastered Graphic Design. Watch him leverage technical skills in aerospace processes while creating stunning visuals for global clients.
+            </p>
+            <div class="btn-container">
+                <!-- Links to Google Drive 1 (Graphic) -->
+                <a href="https://drive.google.com/folderview?id=1YORyGzwpmRGTqsDCXFvB2XT-ROmBWUOL" target="_blank" class="btn btn-play">
+                    <i class="fas fa-play"></i> Graphic Portfolio
+                </a>
+                <!-- Links to Google Drive 2 (Engineering) -->
+                <a href="https://drive.google.com/folderview?id=1IbIQS3HHc96r2i9v4TQotauIdhM_DuLb" target="_blank" class="btn btn-info">
+                    <i class="fas fa-cogs"></i> CAD Portfolio
+                </a>
+            </div>
+        </div>
+        <div class="hero-overlay-bottom"></div>
+    </div>
+
+    <!-- Row 1: Top Picks / Portfolios -->
+    <div class="category-row" id="projects">
+        <h2 class="row-title">Top Picks for You</h2>
+        <div class="row-scroller">
+            
+            <!-- Graphic Design Card (Using Split Art Image) -->
+            <div class="card card-large" onclick="window.open('https://drive.google.com/folderview?id=1YORyGzwpmRGTqsDCXFvB2XT-ROmBWUOL', '_blank')">
+                <img src="art-split.jpg" alt="Graphic Design">
+                <div class="card-details">
+                    <div class="card-actions">
+                        <div class="action-btn play-small"><i class="fas fa-play"></i></div>
+                        <div class="action-btn"><i class="fas fa-plus"></i></div>
+                    </div>
+                    <div class="card-title">Graphic Design Collection</div>
+                    <div class="card-meta">New Episodes</div>
+                    <div class="card-genre">Branding • Digital Media • Art</div>
+                </div>
+            </div>
+
+            <!-- Engineering Card (Using Profile Glasses Image) -->
+            <div class="card card-large" onclick="window.open('https://drive.google.com/folderview?id=1IbIQS3HHc96r2i9v4TQotauIdhM_DuLb', '_blank')">
+                <img src="profile-glasses.jpg" alt="Engineering">
+                <div class="card-details">
+                    <div class="card-actions">
+                        <div class="action-btn play-small"><i class="fas fa-play"></i></div>
+                        <div class="action-btn"><i class="fas fa-plus"></i></div>
+                    </div>
+                    <div class="card-title">SolidWorks & CAD Models</div>
+                    <div class="card-meta">Technical Showcase</div>
+                    <div class="card-genre">3D Modeling • Simulation • Mech</div>
+                </div>
+            </div>
+
+            <!-- Forklift Project (Using Forklift Image) -->
+            <div class="card card-large">
+                <img src="forklift.jpg" alt="Forklift Project">
+                <div class="card-details">
+                    <div class="card-actions">
+                        <div class="action-btn"><i class="fas fa-info"></i></div>
+                    </div>
+                    <div class="card-title">Project: Two-Wheel Forklift</div>
+                    <div class="card-meta">Best Engineering Project</div>
+                    <div class="card-genre">Fabrication • Innovation</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Row 2: Experience -->
+    <div class="category-row" id="experience">
+        <h2 class="row-title">Career Highlights</h2>
+        <div class="row-scroller">
+            
+            <!-- L&T -->
+            <div class="card">
+                <!-- Using a generic industrial background or fallback -->
+                <div style="background: #003366; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 3rem; color: white;">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <div class="card-details">
+                    <div class="card-title">Planner</div>
+                    <div class="card-meta">L&T Hydraulics</div>
+                    <div class="card-genre">Present • Production Planning</div>
+                </div>
+            </div>
+
+            <!-- Aerospace -->
+            <div class="card">
+                <div style="background: #444; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 3rem; color: #46d369;">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="card-details">
+                    <div class="card-title">Process Engineer</div>
+                    <div class="card-meta">Aerospace Sector</div>
+                    <div class="card-genre">Lean Mfg • Optimization</div>
+                </div>
+            </div>
+
+            <!-- Altruist -->
+            <div class="card">
+                <div style="background: #b71c1c; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 3rem; color: white;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-details">
+                    <div class="card-title">Relationship Manager</div>
+                    <div class="card-meta">Altruist Technologies</div>
+                    <div class="card-genre">Client Management</div>
+                </div>
+            </div>
+
+             <!-- Side Profile Image as a 'Documentary' Card -->
+             <div class="card">
+                <img src="profile-side.jpg" alt="Profile Side">
+                <div class="card-details">
+                    <div class="card-title">The Journey</div>
+                    <div class="card-meta">Documentary</div>
+                    <div class="card-genre">Bio • Education • Skills</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Row 3: Skills -->
+    <div class="category-row">
+        <h2 class="row-title">Technical Skills</h2>
+        <div class="row-scroller">
+             <div class="card" style="flex: 0 0 160px; border: 1px solid #444;">
+                <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background: #222;">
+                    <i class="fas fa-drafting-compass" style="font-size: 2rem; color: var(--netflix-red); margin-bottom: 10px;"></i>
+                    <span style="font-weight:bold;">AutoCAD</span>
+                </div>
+            </div>
+            <div class="card" style="flex: 0 0 160px; border: 1px solid #444;">
+                <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background: #222;">
+                    <i class="fas fa-cube" style="font-size: 2rem; color: #46d369; margin-bottom: 10px;"></i>
+                    <span style="font-weight:bold;">Fusion 360</span>
+                </div>
+            </div>
+            <div class="card" style="flex: 0 0 160px; border: 1px solid #444;">
+                <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background: #222;">
+                    <i class="fab fa-adobe" style="font-size: 2rem; color: #ff0000; margin-bottom: 10px;"></i>
+                    <span style="font-weight:bold;">Adobe Suite</span>
+                </div>
+            </div>
+            <div class="card" style="flex: 0 0 160px; border: 1px solid #444;">
+                <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background: #222;">
+                    <i class="fas fa-code" style="font-size: 2rem; color: #00bfff; margin-bottom: 10px;"></i>
+                    <span style="font-weight:bold;">C++</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/bharath-k-s" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:Bharathkswork.1@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="tel:+919380450580"><i class="fas fa-phone"></i></a>
+        </div>
+        <p>Bharath K S Portfolio • 2025</p>
+        <p style="font-size: 0.7rem; margin-top: 10px;">Andrahalli, Bangalore • +91 93804 50580</p>
+    </footer>
+
+</body>
+</html>
