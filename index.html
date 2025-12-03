@@ -7,7 +7,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -29,6 +29,71 @@
             color: var(--text-white);
             font-family: 'Roboto', sans-serif;
             overflow-x: hidden;
+            /* Hide scrollbar during intro */
+            overflow-y: hidden; 
+        }
+        
+        /* Enable scroll after animation via JS */
+        body.loaded {
+            overflow-y: auto;
+        }
+
+        /* --- NETFLIX INTRO ANIMATION --- */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeOutBackground 0.5s ease-out 3.5s forwards;
+        }
+
+        .intro-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 8rem;
+            color: var(--netflix-red);
+            letter-spacing: 10px;
+            opacity: 0;
+            transform: scale(1);
+            animation: netflixAnim 3.5s linear forwards;
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
+        }
+
+        .intro-text span {
+            display: inline-block;
+        }
+
+        @keyframes netflixAnim {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.2);
+                color: var(--netflix-red);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(20); /* The Zoom Effect */
+                color: transparent;
+            }
+        }
+
+        @keyframes fadeOutBackground {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
 
         /* --- Navbar --- */
@@ -55,6 +120,7 @@
             font-weight: 900;
             text-decoration: none;
             letter-spacing: 2px;
+            font-family: 'Bebas Neue', sans-serif;
         }
 
         .nav-links a {
@@ -75,6 +141,12 @@
             display: flex;
             align-items: center;
             padding-left: 4%;
+            opacity: 0; /* Hidden initially */
+            animation: showContent 1s ease-in 3.2s forwards;
+        }
+
+        @keyframes showContent {
+            to { opacity: 1; }
         }
 
         .hero-bg {
@@ -112,6 +184,7 @@
             line-height: 1;
             margin-bottom: 15px;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            font-family: 'Bebas Neue', sans-serif;
         }
 
         .meta-tags {
@@ -163,6 +236,8 @@
             padding: 20px 0 40px 4%;
             position: relative;
             z-index: 10;
+            opacity: 0; /* Hidden initially */
+            animation: showContent 1s ease-in 3.5s forwards;
         }
 
         .row h2 {
@@ -176,11 +251,11 @@
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding: 20px 0; /* Space for hover expansion */
+            padding: 20px 0; 
             padding-right: 4%;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none; 
         }
-        .slider::-webkit-scrollbar { display: none; } /* Chrome */
+        .slider::-webkit-scrollbar { display: none; } 
 
         .card {
             flex: 0 0 280px;
@@ -200,7 +275,6 @@
             object-position: top center; 
         }
 
-        /* Hover Effect */
         .card:hover {
             transform: scale(var(--card-hover-scale));
             z-index: 100;
@@ -251,6 +325,8 @@
             padding: 0 20px;
             color: var(--text-gray);
             font-size: 0.9rem;
+            opacity: 0;
+            animation: showContent 1s ease-in 3.5s forwards;
         }
         
         .socials {
@@ -265,6 +341,7 @@
 
         /* --- Mobile Responsive --- */
         @media (max-width: 768px) {
+            .intro-text { font-size: 5rem; }
             .hero { height: 85vh; align-items: flex-end; padding-bottom: 100px; }
             .hero-bg { object-position: 65% center; }
             .title-img { font-size: 3rem; }
@@ -274,6 +351,13 @@
     </style>
 </head>
 <body>
+
+    <!-- INTRO ANIMATION -->
+    <div id="intro-overlay">
+        <div class="intro-text">
+            <span>B</span> <span>K</span> <span>S</span>
+        </div>
+    </div>
 
     <nav id="navbar">
         <a href="#" class="logo">BHARATH</a>
@@ -287,7 +371,6 @@
 
     <!-- Hero Section -->
     <div class="hero" id="home">
-        <!-- BACKGROUND IMAGE -->
         <img src="hero-car.jpg" alt="Bharath Hero" class="hero-bg">
         <div class="gradient-overlay"></div>
 
@@ -472,6 +555,12 @@
     </footer>
 
     <script>
+        // Intro Animation Timer
+        setTimeout(() => {
+            document.body.classList.add('loaded');
+        }, 3500);
+
+        // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
